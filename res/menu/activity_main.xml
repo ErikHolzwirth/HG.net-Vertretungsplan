@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="@string/menu_refresh"/>
+    
+    <item 
+        	android:id="@+id/menu_submenu_category"
+          	android:title="@string/menu_submenu_category"
+        	android:orderInCategory="101" >
+        <menu>
+            <group android:checkableBehavior="single">
+            	<item android:id="@+id/menu_submenu_category_1"
+              	  	  android:title="@string/menu_submenu_category_1"
+            	      android:checked="true" />
+            	<item android:id="@+id/menu_submenu_category_2"
+                	  android:title="@string/menu_submenu_category_2" />
+            	<item android:id="@+id/menu_submenu_category_3"
+                	  android:title="@string/menu_submenu_category_3" />
+           	</group>            
+        </menu>
+    </item>
+    
+    <item
+        android:id="@+id/menu_settings"
+        android:orderInCategory="102"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_menu_search"
+        android:title="@string/menu_settings"/>
+    <item
+        android:id="@+id/menu_exit"
+        android:orderInCategory="103"
+        android:showAsAction="never"
+        android:title="@string/menu_exit"/>
+    
+</menu>

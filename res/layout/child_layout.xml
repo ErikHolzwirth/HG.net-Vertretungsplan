@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="45dip" >
+
+    <TextView
+        android:id="@+id/tvChildSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dip"
+        android:text=">"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dip"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
+
+</LinearLayout>

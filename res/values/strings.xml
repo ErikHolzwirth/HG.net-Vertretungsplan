@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">					Vertretungsplan</string>
+    <string name="main_header1">				Aktualisiere</string>
+    
+    <string name ="menu_radio_today">			Heute</string>
+    <string name ="menu_radio_tomorrow">		Morgen</string>
+    <string name ="menu_submenu_category">		Kategorien</string>
+    <string name ="menu_submenu_category_1">	Klasse</string>
+    <string name ="menu_submenu_category_2">	Vertretung</string>
+    <string name ="menu_submenu_category_3">	Ausfall</string>
+    <string name ="menu_submenu_category_4">	Essensplan</string>
+    
+    <string name="menu_settings">			 	Suchbegriff</string>
+    <string name="menu_refresh">				Aktualisieren</string>
+    <string name="menu_exit">					Beenden</string>
+        
+</resources>
