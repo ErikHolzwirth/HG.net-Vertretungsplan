@@ -284,20 +284,52 @@ public class MainActivity extends SherlockFragmentActivity {
     	Calendar.getInstance();
     	date.setTime(new Date());
     			
-		String filename 		= "";
-		filename	    		+= date.get(Calendar.YEAR);
+		String filenameToday 		= "";
+		String filenameTomorrow		= "";
 		
-   		if (date.get(Calendar.MONTH) + 1 < 10) 	filename	+= " 0" + (date.get(Calendar.MONTH) + 1);
-		else									filename	+= " " 	+ (date.get(Calendar.MONTH) + 1);
+		filenameToday	    		+= date.get(Calendar.YEAR);
+		filenameTomorrow			+= date.get(Calendar.YEAR);
+		
+   		if (date.get(Calendar.MONTH) + 1 < 10) 	filenameToday		+= " 0" + (date.get(Calendar.MONTH) + 1);
+		else									filenameToday		+= " " 	+ (date.get(Calendar.MONTH) + 1);
 			
-		if (date.get(Calendar.DATE) < 10)     	filename 	+= " 0" + date.get(Calendar.DATE);
-		else									filename	+= " "  + date.get(Calendar.DATE);
+		if (date.get(Calendar.DATE) < 10)     	filenameToday	 	+= " 0" + date.get(Calendar.DATE);
+		else									filenameToday		+= " "  + date.get(Calendar.DATE);
 		
-		if(!(filename.equals(lastUpdate[3]))) 
-			return true;
+		date.add(Calendar.DATE, 1);
+		
+   		if (date.get(Calendar.MONTH) + 1 < 10) 	filenameTomorrow	+= " 0" + (date.get(Calendar.MONTH) + 1);
+		else									filenameTomorrow	+= " " 	+ (date.get(Calendar.MONTH) + 1);
+			
+		if (date.get(Calendar.DATE) < 10)     	filenameTomorrow 	+= " 0" + date.get(Calendar.DATE);
+		else									filenameTomorrow	+= " "  + date.get(Calendar.DATE);
+		
+		String[] dateLastUpdateToday	= lastUpdate[2].split("/");
+		String[] dateLastUpdateTomorrow	= lastUpdate[3].split("/");
+		
+		if((filenameToday.equals(dateLastUpdateToday[4]))) {
+			argumentsToday[0] 		= lastUpdate[2];
+			argumentsToday[1] 		= "0";
+			argumentsToday[2] 		= SETT_fieldToBeSearched;
+			argumentsToday[3] 		= valueSet;
+			
+			if(filenameTomorrow.equals(dateLastUpdateTomorrow[4])) {
+				argumentsTomorrow[0] 	= lastUpdate[3];
+				argumentsTomorrow[1] 	= "0";
+				argumentsTomorrow[2] 	= SETT_fieldToBeSearched;
+				argumentsTomorrow[3] 	= valueSet;
+			}
+		
+			argumentsMenu[0] = "<--Menu-->";
+			argumentsMenu[1] = "0";
+			argumentsMenu[2] = "<--Menu-->";
+			argumentsMenu[3] = "<--Menu-->";
+			
+			return false;
+		}
 		
 		else 
-			return false;
+			return true;
 		
     }
     
