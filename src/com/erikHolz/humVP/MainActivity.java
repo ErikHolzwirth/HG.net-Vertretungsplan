@@ -231,10 +231,15 @@ public class MainActivity extends SherlockFragmentActivity {
 					
 					if (checkForUpdate()) { 
 						FetchData refresh = new FetchData();
+						try {
+							saveUpdateState(lastUpdate[0] + "_" + lastUpdate[1] + "_" + lastUpdate[2] + "_" + lastUpdate[3]);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						refresh.execute();
 					} 			
 					else {
-						headerUpdate.setText("Zuletzt aktualisiert: " + lastUpdate[0] + ":" + lastUpdate[1]);
+						headerUpdate.setText("Klasse " + valueSet + " - zuletzt aktualisiert: " + lastUpdate[0] + ":" + lastUpdate[1]);
 						refreshFragments();
 					}
 
@@ -249,7 +254,7 @@ public class MainActivity extends SherlockFragmentActivity {
     public void saveUserValue(String text) throws IOException {
 		BufferedWriter output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt"))); 
 		
-		output.write(text);
+		output.write(text + "\n");
 		output.close();
     }
     
@@ -307,13 +312,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		String[] dateLastUpdateToday	= lastUpdate[2].split("/");
 		String[] dateLastUpdateTomorrow	= lastUpdate[3].split("/");
 		
-		if((filenameToday.equals(dateLastUpdateToday[4]))) {
+		if((filenameToday.equals(dateLastUpdateToday[dateLastUpdateToday.length - 1]))) {
 			argumentsToday[0] 		= lastUpdate[2];
 			argumentsToday[1] 		= "0";
 			argumentsToday[2] 		= SETT_fieldToBeSearched;
 			argumentsToday[3] 		= valueSet;
 			
-			if(filenameTomorrow.equals(dateLastUpdateTomorrow[4])) {
+			if(filenameTomorrow.equals(dateLastUpdateTomorrow[dateLastUpdateTomorrow.length - 1])) {
 				argumentsTomorrow[0] 	= lastUpdate[3];
 				argumentsTomorrow[1] 	= "0";
 				argumentsTomorrow[2] 	= SETT_fieldToBeSearched;
@@ -347,6 +352,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	BufferedReader input;
 		int i 					= 0;
     	String[] loadedData 	= new String[2];
+    	String strError 		= " _ _ _ ";
 
 		try {
 			input = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt"));
@@ -358,7 +364,13 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			
 			valueSet 	= loadedData[0];
-			lastUpdate 	= loadedData[1].split("_");
+			
+			if (i > 1)
+				lastUpdate 		= loadedData[1].split("_");
+			
+			else
+				lastUpdate 		= strError.split("_");
+				
 				
 			if (valueSet == null) 
 				getInput();
@@ -369,7 +381,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					refresh.execute();
 				}
 				else {
-					headerUpdate.setText("Zuletzt aktualisiert: " + lastUpdate[0] + ":" + lastUpdate[1]);
+					headerUpdate.setText("Klasse " + valueSet + " - zuletzt aktualisiert: " + lastUpdate[0] + ":" + lastUpdate[1]);
 					refreshFragments();
 				}
 			}
@@ -803,7 +815,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				e.printStackTrace();
 			}
     		
-			headerUpdate.setText("Zuletzt aktualisiert: " + lastUpdate[0] + ":" + lastUpdate[1]);
+			headerUpdate.setText("Klasse " + valueSet + " - zuletzt aktualisiert: " + lastUpdate[0] + ":" + lastUpdate[1]);
     		
     		// finally close the dialog
     		dialog.dismiss();
