@@ -146,6 +146,10 @@ public class Converter {
 						intI = splittedLine.length;
 						boolEnd = true;
 					}
+					else if (splittedLine[intI].equals("Aufsichten:")) {
+						intI = splittedLine.length;
+						boolEnd = true;
+					}
 					else if (splittedLine[intI].equals("Aufsicht")) {
 						intI = splittedLine.length;
 						boolEnd = true;

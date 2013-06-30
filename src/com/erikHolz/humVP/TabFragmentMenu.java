@@ -2,13 +2,15 @@ package com.erikHolz.humVP;
 
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-public class TabFragmentMenu extends TabFragment {
+public class TabFragmentMenu extends SherlockFragment {
 	public View fragmentView;
 		
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class TabFragmentMenu extends TabFragment {
 			datasheetMenu.readFile();
 			int intWrittenCount = 0;
 					
-	        for (intLoopCount = 0; intLoopCount < 7; intLoopCount++) {       		
+	        for (intLoopCount = 0; intLoopCount < 5; intLoopCount++) {       		
 	        	if(datasheetMenu.menuA[intLoopCount] != null) {
 		        	adapter.addItem(new OutLessonElements(datasheetMenu.menuA[intLoopCount], datasheetMenu.tag[intLoopCount]));
 		        	adapter.addItem(new OutLessonElements(datasheetMenu.menuB[intLoopCount], datasheetMenu.tag[intLoopCount]));

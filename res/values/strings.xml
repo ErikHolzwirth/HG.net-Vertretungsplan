@@ -8,12 +8,13 @@
     <string name ="menu_radio_tomorrow">		Morgen</string>
     <string name ="menu_submenu_category">		Kategorien</string>
     <string name ="menu_submenu_category_1">	Klasse</string>
-    <string name ="menu_submenu_category_2">	Vertretung</string>
-    <string name ="menu_submenu_category_3">	Ausfall</string>
+    <string name ="menu_submenu_category_2">	Lehrer</string>
+
     <string name ="menu_submenu_category_4">	Essensplan</string>
     
-    <string name="menu_settings">			 	Suchbegriff</string>
     <string name="menu_refresh">				Aktualisieren</string>
-    <string name="menu_exit">					Beenden</string>
+    <string name="menu_search">					Suchen</string>
+    <string name="menu_settings">			 	Einstellung</string>
+
         
 </resources>

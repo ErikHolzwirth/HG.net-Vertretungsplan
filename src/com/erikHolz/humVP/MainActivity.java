@@ -33,7 +33,7 @@ import java.util.GregorianCalendar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -82,8 +82,34 @@ public class MainActivity extends SherlockFragmentActivity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	GregorianCalendar date = new GregorianCalendar();    	
+    	Calendar.getInstance();
+    	date.setTime(new Date());
+    	
+    	switch (date.get(Calendar.DAY_OF_WEEK)) {
+    		case Calendar.MONDAY:
+    			setTheme(R.style.Theme_Blue);
+    			break;
+      		case Calendar.TUESDAY:
+    			setTheme(R.style.Theme_Green);
+    			break;
+      		case Calendar.WEDNESDAY:
+    			setTheme(R.style.Theme_Red);
+    			break;
+      		case Calendar.THURSDAY:
+    			setTheme(R.style.Theme_Orange);
+    			break;
+      		case Calendar.FRIDAY:
+    			setTheme(R.style.Theme_Purple);
+    			break;
+    		default:
+    			setTheme(R.style.Theme_Themedark);
+    			break;
+    			
+    	}
+    	    	
     	super.onCreate(savedInstanceState);
-    	   	
+    	
         ActionBar bar = getSupportActionBar();
         
         // hide app icon
@@ -170,24 +196,11 @@ public class MainActivity extends SherlockFragmentActivity {
                 else item.setChecked(true);
         		SETT_fieldToBeSearched = "Vertretung";
             	return true;
-            	
-        	case R.id.menu_submenu_category_3:
-        		if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-        		SETT_fieldToBeSearched = "Ausfall";
-            	return true;
-                
-            case R.id.menu_settings:
+            
+            case R.id.menu_search:
             	getInput();
             	return true;
-            	
-            case R.id.menu_exit:
-            	// go to homescreen
-            	Intent intent = new Intent(Intent.ACTION_MAIN);
-            	intent.addCategory(Intent.CATEGORY_HOME);
-            	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            	startActivity(intent);
-            	return true;
+
         }
 		return false;
     }
@@ -222,12 +235,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	    		// save user input if it is not empty
 				else {
 					valueSet = input.getText().toString();
-			
-					try {
-						saveUserValue(input.getText().toString());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					saveUserValue(input.getText().toString());
 					
 					if (checkForUpdate()) { 
 						FetchData refresh = new FetchData();
@@ -251,11 +259,28 @@ public class MainActivity extends SherlockFragmentActivity {
     	alert.show();
     }
 
-    public void saveUserValue(String text) throws IOException {
-		BufferedWriter output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt"))); 
+    public void saveUserValue(String text) {
 		
-		output.write(text + "\n");
-		output.close();
+    	BufferedWriter output = null;
+		try {
+			output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt")));
+		} catch (IOException e1) {
+			File f = new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt");
+			if(!f.exists())
+				try {
+					f.createNewFile();
+					output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt")));
+				} catch (IOException e2) {
+				}
+		}
+		 
+		
+		try {
+			output.write(text + "\n");
+			output.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     public void saveUpdateState(String time) throws IOException {
@@ -271,8 +296,19 @@ public class MainActivity extends SherlockFragmentActivity {
 
     public void saveLog() throws IOException {
     	Date logDate = new Date();
-    	BufferedWriter 	output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_LogFile.txt"), true)); 
-		
+    	BufferedWriter output = null;
+		try {
+			output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_LogFile.txt"), true)); 
+		} catch (IOException e1) {
+			File f = new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_LogFile.txt");
+			if(!f.exists())
+				try {
+					f.createNewFile();
+					output = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath() + "/humVP_LogFile.txt")));
+				} catch (IOException e2) {
+				}
+		}
+    	
     	output.write(logDate + "_" + valueSet + "\n");
 		output.close();
     }
@@ -294,6 +330,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		filenameToday	    		+= date.get(Calendar.YEAR);
 		filenameTomorrow			+= date.get(Calendar.YEAR);
+		
+   		if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+   			date.add(Calendar.DATE, 1);
+   		if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+   			date.add(Calendar.DATE, 1);
 		
    		if (date.get(Calendar.MONTH) + 1 < 10) 	filenameToday		+= " 0" + (date.get(Calendar.MONTH) + 1);
 		else									filenameToday		+= " " 	+ (date.get(Calendar.MONTH) + 1);
@@ -330,10 +371,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			argumentsMenu[2] = "<--Menu-->";
 			argumentsMenu[3] = "<--Menu-->";
 			
+			// display existing data
 			return false;
 		}
 		
 		else 
+			// fetch new data
 			return true;
 		
     }
@@ -352,7 +395,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	BufferedReader input;
 		int i 					= 0;
     	String[] loadedData 	= new String[2];
-    	String strError 		= " _ _ _ ";
+    	String strError 		= "/ / _/ / _/ / _/ / ";
 
 		try {
 			input = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getPath() + "/humVP_SettingsFile.txt"));
@@ -389,6 +432,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		    input.close();
 
 			} catch (FileNotFoundException e) {
+				lastUpdate = strError.split("_");
 				getInput();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -465,7 +509,8 @@ public class MainActivity extends SherlockFragmentActivity {
         String[] validLinknames  		= new String[4];
 
         protected void onPreExecute() {
-            dialog.show();
+        	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+        	dialog.show();
         }
     	
     	@Override
@@ -819,6 +864,7 @@ public class MainActivity extends SherlockFragmentActivity {
     		
     		// finally close the dialog
     		dialog.dismiss();
+        	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     		
     		return;
     	}

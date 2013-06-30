@@ -2,13 +2,15 @@ package com.erikHolz.humVP;
 
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-public class TabFragmentToday extends TabFragment {
+public class TabFragmentToday extends SherlockFragment {
 	public View fragmentView;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
